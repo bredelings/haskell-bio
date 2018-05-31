@@ -20,13 +20,14 @@ parse_fasta (('>':line):lines)  = Fasta name comment body where
     body = concatMap (filter (/= ' ')) lines
 parse_fasta x  = error ("FASTA Record does not start with '>'!:\n"++show x)
 
-check [] = False
+check []      = False
 check ('>':_) = False;
-check _ = True
+check _       = True
 
 parse_first_fasta ([]:[])      = (Nothing,[])
 parse_first_fasta ([]:lines)   = parse_first_fasta lines
-parse_first_fasta (header:lines) = (Just $ parse_fasta (header:body), rest) where (body,rest) = span check lines
+parse_first_fasta (header:lines) = (Just $ parse_fasta (header:body), rest)
+    where (body,rest) = span check lines
 
 parse_fastas []    = []
 parse_fastas lines = case parse_first_fasta lines of ((Just first),rest) -> (first:parse_fastas rest)
