@@ -1,18 +1,17 @@
-module Bio.Fasta (Fasta, fasta_name, fasta_comment, fasta_data, read_fasta) where
+module Bio.Fasta (Fasta, name, comment, dat, read_fasta) where
 
 import Data.List
 -- TODO:
 -- * import Data.Text.Lazy as T
 -- * maybe change Fasta to record.
 
-data Fasta = Fasta String String String
-
-fasta_name (Fasta name _ _) = name
-fasta_comment (Fasta _ comment _) = comment
-fasta_data (Fasta _ _ dat) = dat
+data Fasta = Fasta
+    { name    :: String
+    , comment :: String
+    , dat     :: String }
 
 instance Show Fasta where
-    show f = ">" ++ (fasta_name f) ++" " ++ (fasta_comment f) ++ "\n" ++ (fasta_data f) ++ "\n"
+    show f = ">" ++ (name f) ++" " ++ (comment f) ++ "\n" ++ (dat f) ++ "\n"
 
 parse_fasta ([]:lines)          = error "FASTA Record starts with a blank line!"
 parse_fasta (('>':line):lines)  = Fasta name comment body where
