@@ -17,4 +17,7 @@ main = do
   let filename = args!!0
   fastas <- read_fasta filename
   putStr $ concatMap show fastas
-  putStr $ show $ jc69 4
+  let q = jc69 4
+  let t = 0.5
+  let p = expm q*t
+  putStr $ show $ p
